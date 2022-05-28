@@ -22,7 +22,7 @@ KEY = config["KEY"]
 ENDPOINT = config["ENDPOINT"]
 MAX_REQUEST_RATE = config["MAX_REQUEST"]
 REQUEST_TIMEOUT_TIME = config["REQUEST_TIMEOUT_TIME"]
-accepted_extensions = ["jpg", "png", "jpeg", "bmp", "webp", "gif"]
+accepted_extensions = ["jpg", "png", "jpeg", "bmp", "gif"]
 global intRequestCounter
 intRequestCounter = 0
 global intTotalRequests
@@ -207,7 +207,7 @@ def find_func(upload_folder, f_name):
 app=Flask(__name__)
 
 app.secret_key = "secret key"
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 128 * 1024 * 1024
 
 # Allowed extension you can set your own
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])

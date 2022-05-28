@@ -17,9 +17,10 @@ chmod +x find_person.py
 3. Obtain a Microsoft Azure FaceAPI Endpoint and Key. Place both in the setup.py file. The API subscription used is Free Trial and Pricing tier is standard S0(10 api calls per second). The free F0(20 api calls per minute) pricing tier also works aslong as the api calls made are less than the limit. 
 Link: https://azure.microsoft.com/en-us/services/cognitive-services/face/
  
+4. Accepted extensions for the images used are : 'jpg','jpeg','png','bmp','gif'
 
 ### Add/Remove person from register
-Description: Either remove already existing criminal from register, or add someone new person by providing 2-3 training images.
+Description: Either remove already existing criminal from register, or add a new person by providing 2-3 training images.
 NOTE: the training images should only contain one face i.e of the person!
 
 <pre>

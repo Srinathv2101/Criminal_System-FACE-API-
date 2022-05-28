@@ -21,7 +21,7 @@ ENDPOINT = config["ENDPOINT"]
 MAX_REQUEST_RATE_FREE = config["MAX_REQUEST"]
 REQUEST_TIMEOUT_TIME = config["REQUEST_TIMEOUT_TIME"]
 face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
-accepted_extensions = ["jpg", "png", "jpeg", "bmp", "webp", "gif"]
+accepted_extensions = ["jpg", "png", "jpeg", "bmp", "gif"]
 global intFileIndex
 intFileIndex = 0
 global intRequestCounter
