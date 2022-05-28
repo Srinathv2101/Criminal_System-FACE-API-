@@ -9,7 +9,7 @@ from tkinter import Image
 import colorama
 import shutil
 import http.client, urllib, base64
-from config import config
+from setup import config
 from pathlib import Path
 from azure.cognitiveservices.vision.face import FaceClient
 from msrest.authentication import CognitiveServicesCredentials
@@ -302,5 +302,5 @@ def indexOption_HH():
             return redirect(url_for('find_person'))
 
 if __name__ == "__main__":
-    app.run(debug=False,port=5013)
+    app.run(debug=False,port=5014)
     
