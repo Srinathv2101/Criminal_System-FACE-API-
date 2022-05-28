@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # Created By: Srinath Venkatraman
-# Description: Script creates one person object for Microsoft Azure FaceAPI
+# Description: Script creates/deletes one person object for Microsoft Azure FaceAPI
 import os
 import argparse
 import time

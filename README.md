@@ -20,13 +20,20 @@ Link: https://azure.microsoft.com/en-us/services/cognitive-services/face/
 4. Accepted extensions for the images used are : 'jpg','jpeg','png','bmp','gif'
 
 ### Add/Remove person from register
-Description: Either remove already existing criminal from register, or add a new person by providing 2-3 training images.
+Description: Either remove already existing criminal from register, or add a new person by providing 2-3 training images. Once you add a person, a folder will be created in your directory with the name of the person and the images you used for training(The folder will be deleted automatically when you delete that person from records)
 NOTE: the training images should only contain one face i.e of the person!
 
 <pre>
 python create_person.py
 </pre>
 Click on localhost link and proceed.
+
+### Get List of people currently in register
+On running find_person.py, a list of people present in register will be printed out onto terminal.
+
+<pre>
+python find_person.py
+</pre>
 
 ### Many-To-One
 Description:  Given multiple image files and a specific target(criminal already present in database), will display all the image files with specified target in it.
@@ -45,5 +52,3 @@ Click on localhost link and proceed.
 ## Operating Systems
 This script is supported on Windows, Linux, and MacOS.
 
-## How-To Video
-[![How To Video]](youtube_url)

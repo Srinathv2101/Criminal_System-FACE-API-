@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 # Created By: Srinath Venkatraman
-# Description: Python Script uses Azure FaceAPI to detect and verify faces.
+# Description: Python Script uses Azure FaceAPI to detect and verify faces for many-to-one and one-to-many identifiers.
 import os
 import time
 import re
@@ -8,7 +8,6 @@ import argparse
 from tkinter import Image
 import colorama
 import shutil
-import http.client, urllib, base64
 from setup import config
 from pathlib import Path
 from azure.cognitiveservices.vision.face import FaceClient
@@ -44,27 +43,12 @@ for f in fi:
   if '.' not in f and f != 'static' and f != 'templates' and f != '__pycache__':
     personList.append(f)
 
-
-headers = {
-    # Request headers
-    'Ocp-Apim-Subscription-Key': KEY
-}
-
-params = urllib.parse.urlencode({
-    # Request parameters
-    'top': '1000',
-    'returnRecognitionModel': 'false',
-})
-
-conn = http.client.HTTPSConnection('centralindia.api.cognitive.microsoft.com')
-conn.request("GET", "https://srinathv.cognitiveservices.azure.com/face/v1.0/persongroups?%s" % params, "{body}", headers)
-response = conn.getresponse()
-data = response.read()
-print('these should be the names of personList {}'.format(data))
-conn.close()
+print('These are people currently present in Records {}'.format(personList))
 
 colorama.init()
 face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
+
+## Detection and Recognition model can be changed with parser arguments.
 
 parser = argparse.ArgumentParser(description='Find face matches from one image.')
 parser.add_argument('--detection-model', dest='detection_model', type=str,
@@ -302,5 +286,5 @@ def indexOption_HH():
             return redirect(url_for('find_person'))
 
 if __name__ == "__main__":
-    app.run(debug=False,port=5014)
+    app.run(debug=False,port=5016)
     
