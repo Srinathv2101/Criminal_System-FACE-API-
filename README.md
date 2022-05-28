@@ -20,6 +20,8 @@ Link: https://azure.microsoft.com/en-us/services/cognitive-services/face/
 
 ### Add/Remove person from register
 Description: Either remove already existing criminal from register, or add someone new person by providing 2-3 training images.
+NOTE: the training images should only contain one face i.e of the person!
+
 <pre>
 python create_person.py
 </pre>
