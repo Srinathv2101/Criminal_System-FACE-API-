@@ -1,5 +1,6 @@
 # CRIMINAL SYSTEM
 This script makes use of Python, Flask and Microsoft Azure FaceAPI for face detection, personGroup creation/deletion and Person-To-Face comparision. 
+CREATED BY: SRINATH VENKATRAMAN
 
 ## Steps
 1. Install the python libraries using pip:
@@ -17,17 +18,26 @@ chmod +x find_person.py
 Link: https://azure.microsoft.com/en-us/services/cognitive-services/face/
  
 
+### Add/Remove person from register
+Description: Either remove already existing criminal from register, or add someone new person by providing 2-3 training images.
+<pre>
+python create_person.py
+</pre>
+Click on localhost link and proceed.
+
 ### Many-To-One
 Description:  Given multiple image files and a specific target(criminal already present in database), will display all the image files with specified target in it.
 <pre>
 python find_person.py
 </pre>
+Click on localhost link and proceed.
 
 ### One-To-Many
 Description: Given a single image, system will return the image with boxes marking the heads of all criminals present in it.
 <pre>
 python find_person.py
 </pre>
+Click on localhost link and proceed.
 
 ## Operating Systems
 This script is supported on Windows, Linux, and MacOS.
