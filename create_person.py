@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # Created By: Srinath Venkatraman
 # Description: Script creates/deletes one person object for Microsoft Azure FaceAPI
+
+## importing necessary libraries.
+
 import os
 import argparse
 import time
@@ -16,6 +19,8 @@ from msrest.exceptions import ValidationError
 from flask import Flask, flash, request, redirect, render_template, url_for
 from werkzeug.utils import secure_filename
 
+## receiving key from setup.py
+
 KEY = config["KEY"]
 ENDPOINT = config["ENDPOINT"]
 MAX_REQUEST_RATE_FREE = config["MAX_REQUEST"]
@@ -27,6 +32,8 @@ intFileIndex = 0
 global intRequestCounter
 intRequestCounter = 0
 
+## detection and recognition model can be changed by passing parser arguments.
+
 parser = argparse.ArgumentParser(description='Find face matches from one image.')
 parser.add_argument('--detection-model', dest='detection_model', type=str,
                     default='detection_03',
@@ -37,13 +44,15 @@ parser.add_argument('--recognition-model', dest='recognition_model', type=str,
 args = parser.parse_args()
 
 
-
+## Function to return images from given directory.
 
 def getImageFilesFromDirectory(upload_folder):
   arPossibleImages = [fn for fn in os.listdir(upload_folder) if fn.split(".")[-1] in accepted_extensions]
   if (intFileIndex != 0):
     arPossibleImages = arPossibleImages[intFileIndex:len(arPossibleImages)]
   return arPossibleImages
+
+## Function to create an azure personGroup.
 
 def createPersonGroup(name):
   try:
@@ -53,6 +62,8 @@ def createPersonGroup(name):
       exit(colored('Error for PersonGroup Name Field: {}'.format(validationError), 'red'))
   except APIErrorException as apiError:
       exit(colored(apiError.message + ' Use the -d delete option to delete existing PersonGroup and create new one.', 'red'))
+
+## Function to delete an azure personGroup.
 
 def deletePersonGroup(name):
   try:
@@ -79,6 +90,8 @@ def delete_folder(name):
   path = os.getcwd()
   shutil.rmtree(os.path.join(path, '{}'.format(name)))
   print("folder {} has been deleted".format(name))
+
+## Main function of create person route.
 
 def create_func(name, upload_folder):
   print('Person group:', name)
@@ -112,8 +125,12 @@ def create_func(name, upload_folder):
           exit(colored('Training the PersonGroup has failed.', 'red'))
       time.sleep(5)
 
+## Main function of delete person route.
+
 def delete_func(name):
   deletePersonGroup(name)
+
+## Flask routing
 
 app=Flask(__name__)
 
@@ -127,6 +144,8 @@ ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
+## Routing for delete person.
+
 @app.route('/delete')
 def delete_file():
   return render_template('indexDelete.html')
@@ -139,6 +158,8 @@ def delete_form():
     delete_func(name)
     delete_folder(name)
     return render_template('indexDeleted.html')
+
+## Routing for create person.
 
 @app.route('/create')
 def upload_form():
@@ -171,6 +192,8 @@ def upload_file():
         create_func(name,upload_folder)
 
         return redirect('/create')
+
+## Routing for home page.
 
 @app.route('/')
 def choose_option():

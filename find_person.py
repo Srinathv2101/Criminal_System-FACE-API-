@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 # Created By: Srinath Venkatraman
 # Description: Python Script uses Azure FaceAPI to detect and verify faces for many-to-one and one-to-many identifiers.
+
+## importing necessary libraries.
+
 import os
 import time
 import re
@@ -16,6 +19,8 @@ from azure.cognitiveservices.vision.face.models._models_py3 import APIErrorExcep
 from flask import Flask, flash, request, redirect, render_template, url_for, send_from_directory
 from werkzeug.utils import secure_filename
 from PIL import Image, ImageDraw, ImageFont
+
+## receiving key and endpoint from setup.py
 
 KEY = config["KEY"]
 ENDPOINT = config["ENDPOINT"]
@@ -36,6 +41,8 @@ global personList
 personList = []
 global image_counter
 image_counter = 0
+
+## creating and displaying list of people in register.
 
 base = './'
 fi = [str(f) for f in os.listdir(base)]
@@ -63,6 +70,7 @@ args = parser.parse_args()
 
 Path(dirFoundImages).mkdir(parents=True, exist_ok=True)
 
+## Function to return images present in a directory.
 
 def getImageFilesFromDirectory(upload_folder):
   arPossibleImages = [fn for fn in os.listdir(upload_folder) if fn.split(".")[-1] in accepted_extensions]
@@ -81,7 +89,9 @@ def calculateAPIErrorTimeout(errorMessage):
   if (querySecond != None):
     return int(querySecond.group(1)) + 1
   return 1
-  
+
+ ## checking max request limit to progress code.
+
 def checkMaxRequestLimit():
     global intTotalRequests
     intTotalRequests += 1
@@ -98,6 +108,7 @@ def runSleepForMaxRequest():
       time.sleep(REQUEST_TIMEOUT_TIME+6)
       intRequestCounter = 0
 
+## Main function used for comparing face ID obtained from image with face Ids in personGroups at azure database.
 
 def comparePersonGroupToFace(possibleDetectedFace, imgPossibleName, f_name, upload_folder):
   arPersonResults = face_client.face.identify([possibleDetectedFace.face_id], f_name)
@@ -118,6 +129,7 @@ def getPossibleDetectedFaces(imageName, upload_folder):
   print('{} face(s) detected from image {}.'.format(len(arPossibleDetectedFaces), imageName))
   return arPossibleDetectedFaces
 
+## obtaining the face IDs of images.
 
 def getTargetImageFaceId(check_image):
   targetImage = openTargetFile(check_image)
@@ -142,6 +154,8 @@ def getAPIExceptionAction(errorMessage):
   print('Pausing and Resuming in {} seconds...'.format(intTimeToSleep))
   args.start_at = intFileIndex
   time.sleep(intTimeToSleep)
+
+## One-to-Many identifier function.
 
 def check_person(check_image):
   targetImageFaceIDs, targetImageName, targetImagerect = getTargetImageFaceId(check_image)
@@ -171,6 +185,8 @@ def check_person(check_image):
       else:
         print('No person identified in {}.'.format(person))
 
+## Many-to-One identifier function.
+
 def find_func(upload_folder, f_name):
   arImageFiles = getImageFilesFromDirectory(upload_folder)
   print('Total Images in Processing: {}'.format(len(arImageFiles)))
@@ -187,13 +203,14 @@ def find_func(upload_folder, f_name):
       getAPIExceptionAction(errorMessage)
       intRequestCounter = 0
     
+## Flask routing
 
 app=Flask(__name__)
 
 app.secret_key = "secret key"
 app.config['MAX_CONTENT_LENGTH'] = 128 * 1024 * 1024
 
-# Allowed extension you can set your own
+## Allowed extension you can set your own
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 
 
@@ -207,6 +224,8 @@ def send_image(filename):
 @app.route('/check-result/<filename>')
 def check_result(filename):
   return redirect(url_for('static', filename = 'results/'+ filename), code = 301)
+
+## Routing for One-to-Many identifier.
 
 @app.route('/check')
 def check_criminal():
@@ -236,6 +255,8 @@ def check_crim_func():
     base_path = './static/results'
     file_ls = [f for f in os.listdir(base_path)]
     return render_template('indexCheck_HH.html', filenames = file_ls )
+
+## Routing for Many-to-One identifier.
 
 @app.route('/find')
 def find_person():
@@ -272,6 +293,8 @@ def finder():
     shutil.rmtree(os.path.join(path, 'finder'))
     image_names = os.listdir('./static/Found')
     return render_template('indexFindOption.html',filenames=image_names)
+
+## Routing for home page.
 
 @app.route('/')
 def choose_option_HH():
