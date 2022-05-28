@@ -1,4 +1,4 @@
-# CRIMINAL SYSTEM
+# CRIMINAL IDENTIFIER AND REGISTER
 This script makes use of Python, Flask and Microsoft Azure FaceAPI for face detection, personGroup creation/deletion and Person-To-Face comparision. 
 CREATED BY: SRINATH VENKATRAMAN
 
